@@ -2,19 +2,15 @@ FROM debian:buster
 MAINTAINER Lucie Le Briquer <lle-briq@student.42.fr>
 
 # packages
-RUN apt-get update
-RUN apt-get install -y nginx wget
-RUN apt-get -y install php-mysql php-fpm php-mbstring
-RUN apt-get -y install mariadb-server
-RUN apt-get clean
+RUN apt-get update && apt-get install -y nginx wget php-mysql php-fpm \
+php-mbstring mariadb-server && apt-get clean
 
 # nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
 RUN rm /var/www/html/index.nginx-debian.html
-COPY srcs/init.sh .
 
-# install php and mysql
+# create database
+COPY srcs/mysql/database.txt .
 
 # wordpress
 #WORKDIR /var/www
@@ -22,6 +18,7 @@ COPY srcs/init.sh .
 #RUN tar -xzvf latest-fr_FR.tar.gz
 #RUN mv wordpress site && rm latest-fr_FR.tar.gz
 
+COPY srcs/init.sh .
 COPY srcs/html/ /var/www/html/
 
 EXPOSE 80
