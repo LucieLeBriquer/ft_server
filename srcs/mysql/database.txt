@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS site;
-GRANT ALL ON site.* TO 'root'@'localhost';
+GRANT ALL ON site.* TO 'root'@'localhost' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
 USE site;
 CREATE TABLE books (
