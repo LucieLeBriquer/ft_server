@@ -1,0 +1,154 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{amssymb,amsmath}
+\usepackage{float}
+\usepackage{multicol}	
+\usepackage{verbatim}
+\usepackage{moreverb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{amscd}
+\usepackage{amsthm}
+\usepackage{url}
+\usetikzlibrary{shapes}
+\usetikzlibrary{plotmarks}
+\let\bb\bigbreak
+\let\sb\smallbreak
+\let\ni\noindent
+\let\eps\varepsilon
+\newcommand*{\intr}[1]{\overset{\circ}{#1}}
+%\definecolor{bleu}{rgb}{0,0.65,0.87}
+\definecolor{anis}{rgb}{0.6,0.8,0}
+%\definecolor{rouge}{rgb}{1,0,0}
+\definecolor{rouge}{rgb}{0,0,0}
+\definecolor{bleu}{rgb}{0,0,0}
+\newcommand*{\prv}{\bb \bb \ni \textcolor[rgb]{0,0,0}{\text{\textbf{Preuve.}}} \sb \ni}
+\newcommand*{\rmq}{\bb \bb \ni \text{\textbf{Remarque. }} \sb \ni}
+\newcommand*{\exe}{\bb \bb \ni \text{\textbf{Exemple. }} \sb \ni}
+\newcommand*{\E}{\mathbb{E}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\C}{\mathbb{C}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\Pb}{\mathbb{P}}
+\newcommand*{\summ}{\sum_{i=1}^n}
+\newcommand*{\dl}{\sb \ni}
+\newcommand*{\dd}{\bb \ni}
+\newcommand*{\styles}[5]{
+    \tikzstyle{mybox} = [draw=#5, inner sep=10pt, inner ysep=10pt] \tikzstyle{fancytitle} =[text=#5]
+      \begin{center} \begin{tikzpicture}
+      \node [mybox] (box){\begin{minipage}{400pt} #3 \end{minipage} };
+	          \node[fancytitle , fill=white, right=10pt] at (box.north west) {\textbf{#4 #1} #2 };
+		    \end{tikzpicture} \end{center}}
+\newcommand*{\thm}[3]{\styles{#1}{#2}{#3}{Théorème}{rouge}}
+\newcommand*{\cor}[3]{\styles{#1}{#2}{#3}{Corollaire}{rouge}}
+\newcommand*{\lem}[3]{\styles{#1}{#2}{#3}{Lemme}{rouge}}
+\newcommand*{\prp}[3]{\styles{#1}{#2}{#3}{Propriété}{rouge}}
+\newcommand*{\prs}[3]{\styles{#1}{#2}{#3}{Proposition}{rouge}}
+\newcommand*{\dfn}[3]{\styles{#1}{#2}{#3}{Définition}{bleu}}
+
+\title{\textcolor[rgb]{0,0,0}{\textbf{Analyse complexe} \\ Chapitre 1 : Rappels}}
+\author{Lucie Le Briquer}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Rappels de topologie}
+
+\dfn{1}{(ouvert)}{Dans $\C$ un ouvert $U$ est une union de disques ouverts $D(z_0,r)=\{z \in \C | |z-z_0|<r\}$
+\sb \ni de façon équivalente $\forall z_0 \in U$ il existe $r>0$ avec $D(z_0,r) \subset U$}
+
+\dfn{2}{(intérieur)}{Si $X \subset \C$, l'intérieur $\intr{X}$ est l'union des disques ouverts contenus dans $X$ ; c'est aussi le plus grand ouvert contenu dans $X$}
+
+\rmq L'\emph{adhérence} de $X$ notée $\bar{X}$ est le plus petit fermé contenant $X$. La frontière de $X$ est $\bar{X}- \intr{X}$
+
+\dfn{3}{(compact)}{$X \subset \C$ est compact : si $X \subset \cup_{i \in I} U_i$ avec 
+$U_i$ ouvert alors $\exists J$ fini $\in I$ avec $X \subset \cup_{i \in J} U_i$ }
+\dl \textbf{Critère.} \quad Compact ssi (fermé et borné)
+
+\dfn{4}{(connexe, connexe par arc)}{
+\begin{itemize}
+  \item $X \subset \C$ est \emph{connexe} si l'inclusion $X \subset U_1 \cup U_2$ avec $U_i$ ouverts disjoints entraîne $X \subset U_1$ ou $X \subset U_2$
+  \item $X$ est \emph{connexe par arc} si $\forall x_1,x_2 \in X$, $\exists \gamma_i : [0,1] \rightarrow X$ continue avec $\gamma(0)=x_1$ et $\gamma(1)=x_2$
+\end{itemize}}
+
+\rmq 
+\begin{itemize}
+  \item Connexe par arcs $\Rightarrow$ connexe \quad La réciproque est vraie pour un ouvert mais fausse en général.
+  \item Un convexe, un ensemble étoilé est CPA
+  \item Si f continue $f(\text{compact})=\text{compact}$ et $f(\text{connexe})=\text{connexe}$
+\end{itemize}
+
+\dfn{5}{(homotopie)}{Une homotopie entre deux chemins $\gamma_1$ et $\gamma_2$ tq $\gamma_i(0)=x_1$ et $\gamma_i(1)=x_2$ est une application continue $H:[0,1] \times [0,1] \rightarrow X$ avec $H(0,t)=\gamma_1(t)$ \quad $H(1,t)=\gamma_2(t)$ \quad $H(s,0)=x_1$ \quad $H(s,1)=x_2$}
+
+\dfn{6}{(simplement connexe)}{Un espace CPA $X$ est \emph{simplement connexe} si étant donnés deux chemis $\gamma_1$ et $\gamma_2$ de $x_1$ à $x_2$ il existe une homotopie de $\gamma_1$ à $\gamma_2$}
+
+\exe Un disque, un convexe, un ensemble étoilé est simplement connexe
+
+\rmq Pour un \emph{convexe} : $H(s,t)=s \gamma_1(t) + (1-s)\gamma_2(t)$
+
+\section{Rappels sur les séries et suites}
+
+\subsection{Produit de séries}
+
+\prp{1}{(produit de Cauchy)}{Si les deux séries de terme général $a_n$ et $b_n$ convergent \emph{absolument} alors la série de droite converge absoluement et on a l'égalité : \[(\sum^{+\infty}_{n=0} a_n)(\sum^{+\infty}_{m=0} b_m)=\sum^{+\infty}_{l=0} (\sum_{n+m=l} a_n b_m)\  \  (1)\]}
+
+\rmq Si $a_n, b_m$ sont des réels positifs alors (1) est toujours vrai avec éventuellement "$+\infty = +\infty$"
+
+\subsection{Convergence uniforme de suites et séries de fonctions}
+
+\dfn{7}{(convergence uniforme)}{$f_n:U \rightarrow \C$ converge uniformément sur $X \subset U$ s'il existe $g:X \rightarrow \C$ telle que \[\forall \eps >0,\ \exists n_0,\ \forall n \geq n_0,\  \forall z \in X\ :\ |f_n(z) - g(z)| \leq \eps\]}
+
+\prp{2}{}{
+\begin{itemize}
+  \item Une limite uniforme de fonction continue est continue
+  \item Si $U=[a,b]$ on a $lim \int_a^b f_n(t)dt = \int_a^b g(t)dt$
+  \item La plus utile : si $\underset{\text{ouvert}}{U} \subset \C$, $f_n$ CVU sur tout compact contenu dans $U$
+\end{itemize}}
+
+\section{Similitude, homographie et sphère de Riemann}
+
+\thm{3}{}{Une similitude du plan complexe s'écrit $f(z)=az+b$ ou $f(z)=a \bar{z} +b$ avec $a \in \C^*, b \in \C$}
+
+\dfn{8}{(homographie)}{\begin{center} $f(z)=\frac{az+b}{cz+d}$ \quad avec $a,b,c,d \in \C$ et $ad-bc \neq 0$
+\quad $f : \C - \{\frac{-d}{c}\} \longrightarrow \C - \{\frac{a}{c}\}$\end{center}}
+\bb \ni Formellement on peut étendre $f$ en une bijection 
+$\begin{array}{l|clc}
+   & \C \cup \{\infty\} & \longrightarrow & \C \cup \{\infty\} \\
+  \bar{f} : & \frac{-d}{c} & \longmapsto & \infty \\
+   & \infty & \longmapsto & \frac{a}{c} \\
+\end{array}$
+\sb \ni On appelle $\C \cup \{\infty\}$ la \emph{sphère de Riemann} ou la \emph{droite projective complexe} notée $\Pb^1 (\C)$
+
+\[\Pb^1(\C)=\{\text{ droites vectorielles dans } \C^2\}=\C^2 - \{(0,0)\} /_\sim\]
+\\ où $(z_1,z_2) \sim (z_1',z_2')$ si $\exists \alpha \in \C^*$ tq $z_i'=\alpha z_i$
+
+\bb \[ \text{Action de } GL(2,\C)=\left\{ \begin{pmatrix} a&b\\c&d\\ \end{pmatrix} \in M_2(\C) \text{inversibles} \right\} \]
+\bb \[\begin{array}{ccc}
+  GL(2,\C) \times \Pb^1(\C) & \longrightarrow & \Pb^1(\C) \\
+  \begin{pmatrix} a&b\\c&d\\ \end{pmatrix}  \times [(z_1,z_2)] & \longmapsto & [(az_1+bz_2,cz_1+dz_2)] \\
+\end{array}\]
+\bb \ni $\Pb^1(\C)=U_1 \cup U_2$ \quad $U_1=\{[(z_1,z_2)] \in \Pb^1(\C)|z_1 \neq 0\}$
+\quad et $U_2 = \{[(z_1,z_2)] \in \Pb^1(\C)|z_2 \neq 0\}$
+
+\rmq $U_1 = \{[(1,z)] \in \Pb^1(\C)|z \in \C\}$
+\dl $\begin{array}{c|ccc}
+  \exists \Phi_1 :&\C& \longrightarrow & U_1\\
+		  &z& \longmapsto & [(1,z)]\\
+\end{array}$
+\quad \quad $\begin{array}{c|ccc}
+  \exists \Phi_2 :&\C& \longrightarrow & U_2\\
+		  &z& \longmapsto & [(z,1)]\\
+\end{array}$
+\quad \quad $\Phi_2 ^{-1} \circ \Phi_1 (z) = \frac{1}{z}$
+
+\end{document}

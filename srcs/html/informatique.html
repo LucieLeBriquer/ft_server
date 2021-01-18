@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+
+<html>
+  <head>
+    <title>Notes Piscine 42</title>
+    <link rel="shortcut icon" href="images/favicon.png"/>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/scroll.js"></script>
+ </head>
+ <div class="whiteband"></div>
+  <header class="header">
+    <div class="logo"><img src="images/logocurve.png"><a class="title" href="https://lucie-lebriquer.fr">Lucie Le Briquer</a></div>
+    <ul>
+      <li><a href="index.html">À propos</a></li>
+      <li><a href="courses.html">Cours</a></li>
+      <li><a href="informatique.html" class="active">Informatique</a></li>
+      <li><a href="cv.html">CV</a></li>
+    </ul>
+  </header>
+
+  <body>
+    <div class="main">
+        <h2>Notes Piscine 2020</h2>
+        <div class="cours">
+            <li> <a href="#01shell">Shell</a>
+            <li> <a href="#02git">Base de Git</a>
+            <li> <a href="#03langC">Bases du langage C</a>
+            <li> <a href="#04comp">Procéssus de compilation</a>
+            <li> <a href="#05struct">Définition de types et structures</a>
+            <li> <a href="#06make">Construction d'un Makefile</a>
+            <li> <a href="#07bibli">Construction d'une bibliothèque</a>
+        </div>
+
+        <span class="ancre" id="01shell"></span>
+<h2>Shell</h2>
+
+<h3>Quelques commandes</h3>
+<ul>
+<li><code class='codeb'>man -f</code> : recherche dans tous les registres</li>
+<li>existence de <code class='codeb'>rmdir</code> au lieu de <code class='codeb'>rm -rf</code></li>
+<li><code class='codeb'>wc</code> : wildcard, nombre de lignes, mots, bytes</li>
+<li><code class='codeb'>env</code> affiche l'ensemble des variables environnements, une variable créée n'est pas commune à plusieurs shell, il faut l'export si on veut pouvoir l'utiliser</li>
+<li><code class='codeb'>more</code> : pagine pour un long fichier, et on peut utiliser <code class='codeb'>/</code> pour rechercher comme dans <code class='codeb'>vim</code></li>
+<li><code class='codeb'>head -n</code> : récupère les <code class='codeb'>n</code> premières lignes </li>
+<li><code class='codeb'>head -c</code> : récupère les <code class='codeb'>n</code> premiers charactères</li>
+<li><code class='codeb'>tail</code> : fonctionne de la même façon</li>
+<li><code class='codeb'>grep</code> : recherche un motif, <code class='codeb'>-v</code> pour afficher les lignes qui ne contiennent pas, <code class='codeb'>-i</code> pour ignorer la casse, <code class='codeb'>-n</code> pour afficher aussi les numéros lignes contenant le motif</li>
+<li><code class='codeb'>sed 's/motif/remplacement/g'</code> : remplace toutes les occurences de <code class='codeb'>motif</code> par <code class='codeb'>remplacement</code></li>
+<li><code class='codeb'>chmod</code> pour changer les droits</li>
+<li><code class='codeb'>touch</code> créé un fichier, <code class='codeb'>touch -t 07151997 fichier</code> pour modifier la date</li>
+<li><code class='codeb'>for i in `seq 0 9` ; do ... ; done</code></li>
+<li><code class='codeb'>ln -h</code> pour créer un hardlink, <code class='codeb'>ln -n</code> pour un lien symbolique</li>
+<li><code class='codeb'>ls -t</code> pour trier par ordre de dernière modification</li>
+<li><code class='codeb'>find . \( -type d -o -type f \)</code> trouver tous les dossiers et fichiers réguliers</li>
+
+</ul>
+
+<h3>Sorties et écriture de fichiers</h3>
+<ul>
+<li><code class='codeb'>stdin</code> est l'entrée standard de la commande lancée, une commande peut écrire sur deux types de sorties <code class='codeb'>stdout</code> (sortie standard) et <code class='codeb'>stderr</code> (sortie d'erreur)</li>
+<li><code class='codeb'>|</code> branche la sortie standard sur l'entrée standard</li>
+<li><code class='codeb'>&#8250;</code> pour rediriger la sortie standard</li>
+<li><code class='codeb'>2&#8250;</code> pour rediriger la sortie d'erreur</li>
+<li>les deux peuvent s'enchaîner</li>
+<li>on peut aussi faire <code class='codeb'>grep bl &#8249; fichier</code></li>
+<li><code class='codeb'>&#8250;&#8250;</code> ajoute au fichier plutôt que de l'écraser</li>
+<li><code class='codeb'>&#8249;&#8249;</code> écrire jusqu'au mot choisi :</li>
+<pre class='codebb'>
+        cat &#8249;&#8249; FIN
+        &#8250; ...
+        &#8250; ...
+        &#8250; FIN
+</pre>
+<li><code class='codeb'>2&#8249;&#38;1</code> pour rediriger la sortie d'erreur sur la sortie standard, pour des raisons techniques pour tout rediriger dans un fichier <code class='codeb'>ls -l &#8250; fichier 2&#8250;&#38;1</code></li>
+
+</ul>
+
+<h3>Remarques</h3>
+<ul>
+<li><code class='codeb'>'  '</code> inhibe tout contrairement à <code class='codeb'>"  "</code> pour lequel <code class='codeb'>"truc"</code> affiche <code class='codeb'>machin</code></li>
+<li>fichier magic pour écrire des conditions recherchées sur un fichier</li>
+<pre class='codebb'>
+        offset  type    motif   message
+</pre>
+        compiler ce fichier avec <code class='codeb'>file -C -m fichier_magique</code> puis tester le fichier avec
+        \\ <code class='codeb'>file -m magic_file monfichier</code>
+
+</ul>
+<span class="ancre" id="02git"></span>
+<h2>Git</h2>
+
+<h3>Commandes</h3>
+<ul>
+<li><code class='codeb'>git diff</code> : affiche les différences entre la dernière photo et l'état actuel des fichiers</li>
+<li><code class='codeb'>git branch name</code> : créer une branche</li>
+<li><code class='codeb'>git branch -a</code> : liste les branches</li>
+<li><code class='codeb'>git branch -d name</code> : supprime une branche</li>
+<li><code class='codeb'>git checkout name</code> : va sur une branche donnée</li>
+<li><code class='codeb'>git checkout -b name</code> : créer une branche et va dessus</li>
+<li><code class='codeb'>git checkout -- fichier</code> : remet le fichier à sa valeur lors du dernier commit</li>
+<li><code class='codeb'>git commit --amend</code> : écrase le dernier commit</li>
+<li><code class='codeb'>git ls-file</code> : affiche tous les fichiers suivis par git, <code class='codeb'>-i</code> pour les ignorés, <code class='codeb'>--exclude-standard</code> pour les exclus standards, <code class='codeb'>-o</code> pour les untracked</li>
+
+</ul>
+<span class="ancre" id="03langC"></span>
+<h2>Langage C</h2>
+
+<h3>Types</h3>
+<ul>
+<li><code class='codeb'>char</code> : 1 octet (-128, 127), par définition signé</li>
+<li><code class='codeb'>int</code> : 4 octets, par définition signé</li>
+<li><code class='codeb'>float</code> : 4 octets mais moins de précision</li>
+<li><code class='codeb'>double</code> : 8 octets</li>
+<li>pour <code class='codeb'>char</code> et <code class='codeb'>int</code> on peut préciser <code class='codeb'>unsigned</code> pour gagner un bit</li>
+<li><code class='codeb'>long int</code> : 8 octets</li>
+<li><code class='codeb'>short int</code> : 2 octets</li>
+<li>définition des tableaux : <code class='codeb'>int tab[10]</code></li>
+<li><code class='codeb'>static</code> pour que la fonction n'existe que dans son fichier</li>
+<li><code class='codeb'>const</code> variables constantes (utile dans le développement à plusieurs)</li>
+
+</ul>
+
+<h3>Opérateurs</h3>
+<ul>
+<li><code class='codeb'>/</code> division entière, <code class='codeb'>%</code> modulo</li>
+<li><code class='codeb'>i++</code> et <code class='codeb'>++i</code>, différence sur l'ordre de l'opération</li>
+
+</ul>
+
+<h3>Opérateurs binaires</h3>
+<ul>
+<li><code class='codeb'>&#38;</code> = et</li>
+<li><code class='codeb'>|</code> = ou</li>
+<li><code class='codeb'>^=</code> xor (seulement si un est vrai)</li>
+<li><code class='codeb'>~</code> négation</li>
+<li><code class='codeb'>!</code> si autre que 0 met 0, sinon autre chose (indéfini)</li>
+<li><code class='codeb'>&#8249;&#8249;2</code> décale de 2 bit et rajoute des 0</li>
+<li><code class='codeb'>&#8250;&#8250;</code> idem mais si signed et positif <code class='codeb'>1....... &#8250;&#8250;3</code> donne <code class='codeb'>111.....</code></li>
+
+</ul>
+
+<h3>Comparaison</h3>
+<ul>
+<li><code class='codeb'>==</code> égalité</li>
+<li><code class='codeb'>!=</code> différent</li>
+<li><code class='codeb'>&#8250;=</code> supérieur ou égal etc</li>
+<li><code class='codeb'>&#38;&#38;</code> et, faignant si first partie fausse n'évalue pas la deuxième</li>
+<li><code class='codeb'>||</code> ou, faignant aussi</li>
+
+</ul>
+
+<h3>Conditions</h3>
+<ul>
+<li><code class='codeb'>if</code> :</li>
+<pre class='codebb'>
+        if  (condition)
+        {
+            commande;
+        }
+        else if ...
+</pre>
+<li><code class='codeb'>switch</code> :</li>
+<pre class='codebb'>
+        switch(a)
+        {
+            case 1:
+                commande1;
+                break;
+            case 2:
+                commande2;
+                break;
+            ...
+        }
+</pre>
+<li>opérateur ternaire <code class='codeb'>test ? si oui : si non</code></li>
+
+</ul>
+
+<h3>Commandes spéciales</h3>
+<ul>
+<li><code class='codeb'>break</code> : sortie de boucle</li>
+<li><code class='codeb'>continue</code> : repartir en haut de la boucle sans faire la suite des instructions</li>
+<li><code class='codeb'>goto</code> : déclaration d'un label et go à ce label </li>
+<pre class='codebb'>
+            code
+        label1 :
+            suite du code
+            goto label1
+</pre>
+
+</ul>
+
+<h3>Pointeurs</h3>
+<ul>
+<li><code class='codeb'>int *ptr</code>, <code class='codeb'>ptr = &#38;a</code> (adresse de <code class='codeb'>a</code>)</li>
+<li><code class='codeb'>*ptr = valeur</code> : modifie la valeur de la variable à l'adresse pointée par <code class='codeb'>ptr</code></li>
+<li><code class='codeb'>ptr + 1</code> : décalage de 4 sur l'adresse en hexa, pour se décaler d'<code class='codeb'>int</code> en <code class='codeb'>int</code></li>
+<li><code class='codeb'>*(ptr + 1)</code> possible</li>
+<li>il est possible de mettre <code class='codeb'>ptr = 0</code>, ça signifie qu'il ne pointe sur rien</li>
+<li><code class='codeb'>void *ptr</code> pour créer un pointeur qui pointe vers un objet de type quelconque</li>
+
+</ul>
+
+<h3>Tableaux et chaînes de caractères</h3>
+<ul>
+<li>un tableau est en fait un pointeur sur un <code class='codeb'>int</code> qui donne la first case puis <code class='codeb'>[i]</code> décale de <code class='codeb'>i</code> dans la mémoire. Ainsi, <code class='codeb'>*tab</code> donne le premier élément, <code class='codeb'>*(tab + 1)</code> le deuxième, etc.</li>
+<li>une chaîne de caractère n'existe pas réellement, c'est une suite de caractères se terminant par le caractère <code class='codeb'>\0</code>, <code class='codeb'>*str</code> est le premier caractère</li>
+
+</ul>
+
+<h3>Main</h3>
+<pre class='codebb'>
+int main(int argc, char **argv)
+
+./a.out arg1 arg2 arg3
+</pre>
+<ul>
+<li><code class='codeb'>argc</code> est le nombre d'arguments passé à la fonction lors de l'appel de <code class='codeb'>a.out</code></li>
+<li><code class='codeb'>argv</code> est un <em>tableau</em> de chaîne de caractères contenant les arguments</li>
+<li>attention <code class='codeb'>argv[0]</code> est le nom de l'exécutable appelé, ici <code class='codeb'>a.out</code></li>
+
+</ul>
+
+<h3>Malloc</h3>
+<ul>
+<li><code class='codeb'>#include &#8249;stdlib.h&#8250;</code> pour l'utiliser</li>
+<li>permet d'allouer de la mémoire</li>
+<li>prototypage : <code class='codeb'>void *malloc(size_t size)</code></li>
+<li>pour allouer de la place pour 4 <code class='codeb'>int</code> il vaut mieux faire <code class='codeb'>malloc(4*sizeof(int))</code> pour que cela fonctionne sur n'importe quel processeur</li>
+<li>il faut rendre la mémoire dès que possible avec <code class='codeb'>free</code></li>
+<li>si l'allocation échoue, malloc renvoie le pointeur null</li>
+
+</ul>
+
+<h3>Manipulation des fichiers</h3>
+<ul>
+<li><code class='codeb'>open</code> : pour pouvoir lire ou écrire dans un fichier il faut d'abord l'ouvrir via la fonction <code class='codeb'>open</code> prototypée de la façon suivante</li>
+<pre class='codebb'>
+        int open(const char *nom, int oflag, mode_t mode);
+</pre>
+        cette fonction retourne un <code class='codeb'>int</code> appelé le <em>descripteur</em> qui servira à représenter le fichier
+<ul>
+<li><code class='codeb'>O_RDONLY</code> : ouverture en lecture seule</li>
+<li><code class='codeb'>O_WRONLY</code> : ouverture en écriture seule</li>
+<li><code class='codeb'>O_RDWR</code> : ouverture en lecture et écriture</li>
+<li><code class='codeb'>O_NDELAY</code> : ouverture non bloquante</li>
+<li><code class='codeb'>O_APPEND</code> : positionnement en fin de fichier avant chaque écriture</li>
+<li><code class='codeb'>O_CREAT</code> : création du fichier si il n'existe pas</li>
+<li><code class='codeb'>O_TRUNC</code> : ouverture avec troncature si le fichier existe</li>
+<li><code class='codeb'>O_EXCL</code> : ouverture exclusive (retourne un code d'erreur si le fichier existe déja lors d'une création) </li>
+
+</ul>
+<li><code class='codeb'>close</code> : une fois la manipulation du fichier il faut refermer celui-ci à l'aide de la fonction <code class='codeb'>close</code> qui prend en paramètre le descripteur, elle retourne 0 en cas de réussite, -1 sinon</li>
+
+</ul>
+<span class="ancre" id="04comp"></span>
+<h2>Compilation</h2>
+
+<h3>Généralités</h3>
+Il y a 3 phases de compilation :
+<ul>
+<li>préprocess : ajout de plein de codes via les includes, <code class='codeb'>cpp fichier.c</code> pour affichier les codes introduits</li>
+<li>compilation : création d'un fichier objet <code class='codeb'>.o</code> à partir du <code class='codeb'>.c</code> via par exemple <code class='codeb'>gcc -c main.c</code></li>
+<li>link des différents fichiers objets, dans un <code class='codeb'>.o</code> il n'y a pas d'erreur si la fonction appelée n'existe pas, c'est lors du link qu'il va la faire correspondre à une fonction dans un autre <code class='codeb'>.o</code></li>
+
+</ul>
+Comprendre cette décomposition permet de recompiler uniquement les fichiers modifiés et donc gagner du temps. Au moment du link seule l'existence est vérifiée mais pas le typage !
+
+<h3>Include</h3>
+<ul>
+<li><code class='codeb'>#include &#8249;...&#8250;</code> : directives de bases du compilateur</li>
+<li><code class='codeb'>#include "..."</code> : fichier spécifique, ou l'inclure avec <code class='codeb'>gcc -i</code>, ce genre d'include copie textuellement le fichier à cet endroit là, en général pas une bonne idée les includes de <code class='codeb'>.c</code></li>
+<li><code class='codeb'>.h</code> : fichier contenant les prototypes de fonctions, inclus dans le main et dans le fichier, permet de faire gaffe à la correspondance des types, et propage les changements</li>
+
+</ul>
+
+<h3>Define et variables</h3>
+<ul>
+<li><code class='codeb'>#define VAR blbl</code> : remplace <em>textuellement</em> à l'endroit appelé, convention de nommer ces variables en majuscules</li>
+<li><code class='codeb'>#define LOL(x) ...</code> : on peut définir ces variables avec des paramètres, souvent dangereux et illisible</li>
+<li><code class='codeb'>gcc -DVAR=90 main.c</code> : on peut définir les variables directement en appelant gcc</li>
+
+</ul>
+
+<h3>Préprocesseur de contrôle : if, else</h3>
+<ul>
+<li><code class='codeb'>#if</code>, <code class='codeb'>else</code> : marche comme en LateX</li>
+<li><code class='codeb'>#ifdef</code>, <code class='codeb'>#ifndef</code> : pour vérifier la définition ou non d'une variable, permet de debug mais aussi de protéger les <code class='codeb'>.h</code> qui sont souvent inclus plusieurs fois</li>
+<pre class='codebb'>
+        #ifndef __FCT_H__
+        #define __FCT_H__
+        code
+        #endif
+</pre>
+
+</ul>
+<span class="ancre" id="05struct"></span>
+<h2>Définition de type et structures</h2>
+<h3>Définition de type</h3>
+<ul>
+<li><code class='codeb'>typedef type nom_du_type</code> : s'utilise comme prévu</li>
+<li>attention <code class='codeb'>typedef</code> a un scope</li>
+
+</ul>
+<h3>Structure</h3>
+Comme les structures dans n'importe quel autre langage :
+<pre class='codebb'>
+struct  s_point
+{
+    int     a;
+    int     b;
+    char    *name;
+}
+</pre>
+
+<ul>
+<li>un objet <code class='codeb'>s</code> de type <code class='codeb'>struct s_point</code> a alors trois \emph{attributs}, on y accède avec <code class='codeb'>s.a</code>, <code class='codeb'>s.b</code>, <code class='codeb'>s.name</code></li>
+<li>il est plus simple de définir un nom pour la structure, on écrit alors directement :</li>
+
+</ul>
+<pre class='codebb'>
+typedef struct
+{
+    ...
+} name_struct;
+</pre>
+
+<h3>Énumération</h3>
+<pre class='codebb'>
+enum    e_list
+{
+    val1 = start,
+    val2,
+    ...
+    val15
+};
+</pre>
+
+<ul>
+<li><code class='codeb'>enum</code> créer toutes ces variables en tant que constantes, ce sont des <code class='codeb'>int</code>, de base met 0,1,...,14, mais on peut préciser un start, ou même définir la valeur de n'importe quelle variable</li>
+<li>ces constantes sont globales à tout le scope</li>
+
+</ul>
+<span class="ancre" id="06make"></span>
+<h2>Makefile</h2>
+Permet d'organiser la compilation dans un projet et d'éviter les compilations inutiles
+<ul>
+<li>le fichier Makefile contient des règles qui s'exécutent via <code class='codeb'>make rule_name</code></li>
+<li>une règle est une suite de commande shell</li>
+<li><code class='codeb'>make</code> exécute la première règle définie</li>
+<li>la déclaration des variables se fait via <code class='codeb'>VAR = file1 file2</code> puis l'appellation via <code class='codeb'>{VAR}</code></li>
+<li>une règle se définit : <code class='codeb'>rule_name:</code></li>
+<li>on peut attribuer des dépendances aux règles, elle dépendent alors des fichiers indiqués</li>
+
+</ul>
+Exemple type de Makefile :
+<pre class='codebb'>
+SRCS = main.c fct.c
+OBJS = {SRCS.c=.o}
+
+all: {OBJS}
+    code
+
+clean: dependancies
+    code
+
+...
+</pre>
+<ul>
+<li>avec <code class='codeb'>{OBJS}</code>, make comprend tout seul qu'il doit recompiler uniquement les fichiers qui ont été modifiés depuis</li>
+<li>on peut mettre un nom de fichier en nom de règle, si les dépendances ont été modifiées plus récemment que le fichier l'appel de la règle exécute les instructions</li>
+<li><code class='codeb'>.c.o</code> est une règle cachée de Makefile, c'est la compilation des <code class='codeb'>.c</code> en <code class='codeb'>.o</code>, on peut la redéfinir pour choisir le compilateur, les flags etc de la manière suivante :</li>
+<pre class='codebb'>
+        .c.o:
+            {CC} {FLAGS} -c &#8249; -o {&#8249;:.c=.o}
+</pre>
+        en définissant les variables <code class='codeb'>CC</code> et <code class='codeb'>FLAGS</code> avant
+<li>toujours mettre une règle <code class='codeb'>all</code></li>
+<li>les règles pouvant être des noms de fichiers il peut y avoir une ambiguïté, par exemple si le fichier <code class='codeb'>all</code> existe déjà, il est alors possible à la fin du Makefile de définir via <code class='codeb'>.PHONY</code> les règles qui ne doivent pas être interprétées comme des noms de fichiers</li>
+<li>si on veut dans une variable récupérer tous les fichiers <code class='codeb'>.c</code> par exemple, il faut faire <code class='codeb'>SRCS = (wildcard *.c)</code></li>
+
+</ul>
+<span class="ancre" id="07bibli"></span>
+<h2>Bibliothèques</h2>
+<ul>
+<li>la création d'une bibliothèque se fait de la manière suivante :</li>
+<pre class='codebb'>
+        ar rc libNomDeLaLibrairie.a file1.o file2.o etc
+</pre>
+<li>il faut donc générer les <code class='codeb'>.o</code> des <code class='codeb'>.c</code> dont on veut ajouter les fonctions à la librairie puis générérer celle-ci via la commande précédente</li>
+<li>les librairies peuvent vite devenir très grandes et leur parcours très long, il est recommandé d'exécuter la commande suivante qui va créer un index de la librairie :</li>
+<pre class='codebb'>
+        ranlib libNomDeLaLibrairie.a
+</pre>
+<li>la création d'une librairie permet aussi de partager ses fonctions à d'autres utilisateurs sans dévoiler le code source</li>
+<li>pour utiliser une librairie dans un projet il faut alors le compiler en indiquant l'endroit où se trouve la librairie :</li>
+<pre class='codebb'>
+        gcc ... -LCheminDeLaLibrairie -lNomDeLaLibrairie
+</pre>
+
+</ul>
+
+    </div>
+
+
+  </body>
+
+  <footer>
+    <ul class="footer">
+      <li></li>
+      <li></li>
+      <li><a href="mailto:lucie@lucie-lebriquer.fr"><i class="fa fa-envelope"></i></a></li>
+      <li><a href="skype:live:fb6c4c6104c1c852?chat"><i class="fa fa-skype"></i></a></li>
+      <li><a href="https://www.facebook.com/lucie.lebriquer" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
+      <li><a href="https://github.com/LucieLB" target="_blank"><i class="fa fa-github"></i></a></li>
+      <li><a href="https://plus.google.com/+LucieLeBriquer" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </footer>
+</html>
