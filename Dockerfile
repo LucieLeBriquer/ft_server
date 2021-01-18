@@ -8,9 +8,16 @@ php-mbstring mariadb-server && apt-get clean
 # nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm /var/www/html/index.nginx-debian.html
+COPY srcs/nginx/default /etc/nginx/sites-available/
 
 # create database
 COPY srcs/mysql/database.txt .
+
+# configure nginx to use php
+#RUN mkdir /var/www/site && $USER:$USER /var/www/site
+#COPY srcs/nginx/site /etc/nginx/sites-available/site
+#RUN ln -s /etc/nginx/sites-available/site /etc/nginx/sites-enabled/
+COPY srcs/php/info.php /var/www/html/
 
 # wordpress
 #WORKDIR /var/www
