@@ -14,9 +14,6 @@ COPY srcs/nginx/default /etc/nginx/sites-available/
 COPY srcs/mysql/database.txt .
 
 # configure nginx to use php
-#RUN mkdir /var/www/site && $USER:$USER /var/www/site
-#COPY srcs/nginx/site /etc/nginx/sites-available/site
-#RUN ln -s /etc/nginx/sites-available/site /etc/nginx/sites-enabled/
 COPY srcs/php/info.php /var/www/html/
 
 # wordpress
