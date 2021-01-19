@@ -26,11 +26,17 @@ RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-lang
 COPY srcs/php/config.inc.php /var/www/html/phpmyadmin
 
 # wordpress
-#WORKDIR /var/www
-#RUN wget http://fr.wordpress.org/latest-fr_FR.tar.gz
-#RUN tar -xzvf latest-fr_FR.tar.gz
-#RUN mv wordpress site && rm latest-fr_FR.tar.gz
+WORKDIR /var/www/html
+RUN wget http://fr.wordpress.org/latest-fr_FR.tar.gz \
+	&& tar -xzvf latest-fr_FR.tar.gz \
+	&& rm latest-fr_FR.tar.gz \
+	&& chown -R www-data:www-data wordpress
 
+# maybe
+# RUN apt-get install -y php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
+# RUN apt-get -y install php-cli php-mysql php-curl php-gd php-intl
+
+WORKDIR /
 COPY srcs/init.sh .
 
 EXPOSE 80
