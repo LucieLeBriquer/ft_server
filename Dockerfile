@@ -32,10 +32,6 @@ RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-lang
 	&& chown -R www-data:www-data /var/lib/phpmyadmin
 COPY srcs/php/config.inc.php /var/www/wordpress/phpmyadmin
 
-# maybe
-# RUN apt-get install -y php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
-# RUN apt-get -y install php-cli php-mysql php-curl php-gd php-intl
-
 WORKDIR /
 COPY srcs/init.sh .
 
