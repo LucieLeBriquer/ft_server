@@ -11,10 +11,19 @@ RUN rm /var/www/html/index.nginx-debian.html
 COPY srcs/nginx/default /etc/nginx/sites-available/
 
 # create database
-COPY srcs/mysql/database.txt .
+COPY srcs/mysql/database.sql .
 
 # configure nginx to use php
-COPY srcs/php/info.php /var/www/html/
+COPY srcs/php/database.php /var/www/html/
+
+# configure phpmyadmin
+RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz \
+	&& tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz \
+	&& mv phpMyAdmin-5.0.4-all-languages/ /var/www/html/phpmyadmin \
+	&& rm phpMyAdmin-5.0.4-all-languages.tar.gz \
+	&& mkdir -p /var/lib/phpmyadmin/tmp \
+	&& chown -R www-data:www-data /var/lib/phpmyadmin
+COPY srcs/php/config.inc.php /var/www/html/phpmyadmin
 
 # wordpress
 #WORKDIR /var/www
@@ -23,7 +32,6 @@ COPY srcs/php/info.php /var/www/html/
 #RUN mv wordpress site && rm latest-fr_FR.tar.gz
 
 COPY srcs/init.sh .
-COPY srcs/html/ /var/www/html/
 
 EXPOSE 80
 
