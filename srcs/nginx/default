@@ -18,11 +18,11 @@ server {
 	#
 	# include snippets/snakeoil.conf;
 
-	root /var/www/html;
+	root /var/www/wordpress;
 
-	index index.html index.htm index.nginx-debian.html;
+	index index.php wp-login.php;
 
-	server_name _;
+	server_name wordpress;
 
 	location / {
 		try_files $uri $uri/ =404;
