@@ -11,7 +11,7 @@ RUN rm -rf /var/www/html
 COPY srcs/nginx-default /etc/nginx/sites-available/default
 
 # create database
-COPY srcs/create-db.sql .
+COPY srcs/database.sql .
 
 # wordpress
 WORKDIR /var/www
