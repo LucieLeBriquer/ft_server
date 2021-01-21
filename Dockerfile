@@ -10,9 +10,6 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm -rf /var/www/html
 COPY srcs/nginx-default /etc/nginx/sites-available/default
 
-# create database
-COPY srcs/database.sql .
-
 # wordpress
 WORKDIR /var/www
 RUN wget http://fr.wordpress.org/latest-fr_FR.tar.gz \
@@ -24,15 +21,11 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 	&& mv wp-cli.phar /usr/local/bin/wp
 COPY srcs/wp-config.php /var/www/wordpress/wp-config.php
 
-# add some themes
+# add twentyfifteen theme
 WORKDIR /var/www/wordpress/wp-content/themes
 RUN wget https://downloads.wordpress.org/theme/twentyfifteen.2.8.zip \
-	&& wget https://downloads.wordpress.org/theme/go.1.3.9.zip \
-	&& wget https://downloads.wordpress.org/theme/astra.3.0.1.zip \
 	&& unzip twentyfifteen.2.8.zip \
-	&& unzip go.1.3.9.zip \
-	&& unzip astra.3.0.1.zip \
-	&& rm twentyfifteen.2.8.zip go.1.3.9.zip astra.3.0.1.zip
+	&& rm twentyfifteen.2.8.zip
 
 # configure phpmyadmin
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz \
@@ -44,8 +37,19 @@ RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-lang
 COPY srcs/pma-config.php /var/www/wordpress/phpmyadmin/config.inc.php
 
 WORKDIR /
-COPY srcs/init.sh .
 
-EXPOSE 80
+# add SSL
+RUN wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 \
+	&& mv mkcert-v1.4.1-linux-amd64 mkcert \
+	&& chmod +x mkcert \
+	&& mv mkcert /usr/local/bin/ \
+	&& mkcert -install \
+	&& mkcert localhost
 
-CMD bash init.sh
+# init database
+COPY srcs/database.sql .
+COPY srcs/init.sh .init.sh
+
+EXPOSE 80 443
+
+CMD bash .init.sh

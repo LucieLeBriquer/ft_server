@@ -1,10 +1,10 @@
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+	listen 80;
 
 	# SSL configuration
-	listen 443 ssl default_server;
-	listen [::]:443 ssl default_server;
+	listen 443 ssl;
+	ssl_certificate /localhost.pem;
+	ssl_certificate_key /localhost-key.pem;
 
 	root /var/www/wordpress;
 

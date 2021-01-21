@@ -1,5 +1,5 @@
 - check les erreurs RSS dans phpmyadmin (xml, pcre)
-- faire un test de link bdd / wordpress
+- etre sure que le certificat ssl est ok comme ca
 
 Ressources :
 - https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mariadb-php-lemp-stack-on-debian-10
