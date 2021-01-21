@@ -7,6 +7,7 @@ server {
 	ssl_certificate_key /localhost-key.pem;
 
 	root /var/www/wordpress;
+	server_tokens off;
 
 	index index.php wp-login.php;
 
