@@ -3,7 +3,7 @@ MAINTAINER Lucie Le Briquer <lle-briq@student.42.fr>
 
 # packages
 RUN apt-get update && apt-get install -y nginx wget php-mysql php-fpm \
-php-mbstring mariadb-server unzip && apt-get clean
+php-mbstring php-xml mariadb-server unzip && apt-get clean
 
 # nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
