@@ -49,6 +49,7 @@ RUN wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v
 # init database
 COPY srcs/database.sql .
 COPY srcs/init.sh .init.sh
+COPY srcs/autoindex.sh .
 
 EXPOSE 80 443
 

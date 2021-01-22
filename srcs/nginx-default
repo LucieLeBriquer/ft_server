@@ -1,19 +1,42 @@
 server {
 	listen 80;
 
-	# SSL configuration
-	listen 443 ssl;
+	root /var/www/wordpress;
+	server_tokens off;
+
+	index index.php;
+
+	server_name wordpress;
+
+	location / {
+		autoindex on;
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+	}
+
+}
+
+# SSL configuration
+
+server {
+	listen 443;
+	ssl on;
 	ssl_certificate /localhost.pem;
 	ssl_certificate_key /localhost-key.pem;
 
 	root /var/www/wordpress;
 	server_tokens off;
 
-	index index.php wp-login.php;
+	index index.php;
 
 	server_name wordpress;
 
 	location / {
+		autoindex on;
 		try_files $uri $uri/ =404;
 	}
 
