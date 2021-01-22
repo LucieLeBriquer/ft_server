@@ -1,6 +1,4 @@
 - check les erreurs RSS dans phpmyadmin (xml, pcre)
-- etre sure que le certificat ssl est ok comme ca
-- plus que l'autoindex a faire
 
 Ressources :
 - https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mariadb-php-lemp-stack-on-debian-10

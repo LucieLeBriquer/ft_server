@@ -7,11 +7,11 @@ php-mbstring mariadb-server unzip && apt-get clean
 
 # nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN rm -rf /var/www/html
+RUN rm -rf /var/www/html && mkdir /var/www/ft_server
 COPY srcs/nginx-default /etc/nginx/sites-available/default
 
 # wordpress
-WORKDIR /var/www
+WORKDIR /var/www/ft_server
 RUN wget http://fr.wordpress.org/latest-fr_FR.tar.gz \
 	&& tar -xzvf latest-fr_FR.tar.gz \
 	&& rm latest-fr_FR.tar.gz \
@@ -19,24 +19,24 @@ RUN wget http://fr.wordpress.org/latest-fr_FR.tar.gz \
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp
-COPY srcs/wp-config.php /var/www/wordpress/wp-config.php
+COPY srcs/wp-config.php /var/www/ft_server/wordpress/wp-config.php
 
 # add twentyfifteen theme
-WORKDIR /var/www/wordpress/wp-content/themes
+WORKDIR /var/www/ft_server/wordpress/wp-content/themes
 RUN wget https://downloads.wordpress.org/theme/twentyfifteen.2.8.zip \
 	&& unzip twentyfifteen.2.8.zip \
 	&& rm twentyfifteen.2.8.zip
 
+WORKDIR /
+
 # configure phpmyadmin
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz \
 	&& tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz \
-	&& mv phpMyAdmin-5.0.4-all-languages/ /var/www/wordpress/phpmyadmin \
+	&& mv phpMyAdmin-5.0.4-all-languages/ /var/www/ft_server/phpmyadmin \
 	&& rm phpMyAdmin-5.0.4-all-languages.tar.gz \
 	&& mkdir -p /var/lib/phpmyadmin/tmp \
 	&& chown -R www-data:www-data /var/lib/phpmyadmin
-COPY srcs/pma-config.php /var/www/wordpress/phpmyadmin/config.inc.php
-
-WORKDIR /
+COPY srcs/pma-config.php /var/www/ft_server/phpmyadmin/config.inc.php
 
 # add SSL
 RUN wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 \

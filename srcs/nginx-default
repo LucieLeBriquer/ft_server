@@ -1,12 +1,12 @@
 server {
 	listen 80;
 
-	root /var/www/wordpress;
+	root /var/www/ft_server;
 	server_tokens off;
 
 	index index.php;
 
-	server_name wordpress;
+	server_name ft_server;
 
 	location / {
 		autoindex on;
@@ -28,12 +28,12 @@ server {
 	ssl_certificate /localhost.pem;
 	ssl_certificate_key /localhost-key.pem;
 
-	root /var/www/wordpress;
+	root /var/www/ft_server;
 	server_tokens off;
 
 	index index.php;
 
-	server_name wordpress;
+	server_name ft_server;
 
 	location / {
 		autoindex on;
@@ -44,5 +44,4 @@ server {
 		include snippets/fastcgi-php.conf;
 		fastcgi_pass unix:/run/php/php7.3-fpm.sock;
 	}
-
 }
