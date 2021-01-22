@@ -11,4 +11,7 @@
 
 # clean all unused containers and those based on ft_server image
 ./docker.sh clean
+
+# switch autoindex on/off
+./docker.sh autoindex
 ```
