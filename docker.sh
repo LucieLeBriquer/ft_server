@@ -54,9 +54,22 @@ then
 fi
 echo -e "${BLUE}> create and start a container using ft_server's image${NC}"
 docker run -d -p 80:80 -p 443:443 ft_server
+CURRENT=$(docker ps -q | head -1)
 
 if [[ $1 = "enter" ]]
 then
 	echo -e "${BLUE}> enter the container${NC}"
 	docker exec -it $(docker ps -aq | head -1) bash
+elif [[ $1 = "autoindex" ]]
+then
+	echo -e "${BLUE}> switch autoindex on/off${NC}"
+	OPTION=$(docker exec -it $CURRENT bash ./autoindex.sh | grep "off" | wc -l)
+	if [[ $OPTION = "0" ]]
+	then
+		echo -e "deactivate autoindex"
+		docker exec -it $CURRENT bash ./autoindex.sh off
+	else
+		echo -e "activate autoindex"
+		docker exec -it $CURRENT bash ./autoindex.sh on
+	fi
 fi
