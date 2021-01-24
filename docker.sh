@@ -6,15 +6,6 @@ CONTAINERS=$(docker ps -aq | wc -l)
 CONTAINERS_ACTIVATE=$(docker ps -q | wc -l)
 CURRENT=$(docker ps -q | head -1)
 
-# to fix "Got permission denied while trying to connect to the Docker daemon socket" :
-# sudo groupadd docker
-# sudo usermod -aG docker ${USER}
-# logout and login
-
-# stop nginx and start docker
-echo "user42" | sudo -S service nginx stop
-echo "user42" | sudo -S service docker start
-
 if [[ $1 = "clean" ]]
 then
 	echo -e "${BLUE}> remove all containers${NC}"
