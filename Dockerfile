@@ -6,11 +6,10 @@ RUN apt-get -qq update \
 && apt-get install -y nginx wget php-mysql php-fpm php-mbstring php-xml mariadb-server > /dev/null 2>&1 \
 && apt-get -qq clean
 
-# nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
 && rm -rf /var/www/html && mkdir /var/www/ft_server
 
-# wordpress
+# install wp-cli
 RUN wget -q https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 && chmod +x wp-cli.phar \
 && mv wp-cli.phar /usr/local/bin/wp \
