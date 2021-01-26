@@ -21,7 +21,7 @@ RUN wget http://fr.wordpress.org/latest-fr_FR.tar.gz \
 
 WORKDIR /
 
-# configure phpmyadmin
+# phpmyadmin
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz \
 	&& tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz \
 	&& mv phpMyAdmin-5.0.4-all-languages/ /var/www/ft_server/phpmyadmin \
@@ -29,7 +29,7 @@ RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-lang
 	&& mkdir -p /var/lib/phpmyadmin/tmp \
 	&& chown -R www-data:www-data /var/lib/phpmyadmin
 
-# add SSL certificate
+# SSL certificate
 RUN wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 \
 	&& mv mkcert-v1.4.1-linux-amd64 mkcert \
 	&& chmod +x mkcert \
@@ -37,7 +37,6 @@ RUN wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v
 	&& mkcert -install \
 	&& mkcert localhost
 
-# init database
 COPY srcs/nginx-default /etc/nginx/sites-available/default
 COPY srcs/pma-config.php /var/www/ft_server/phpmyadmin/config.inc.php
 COPY srcs/wp-config.php /var/www/ft_server/wordpress/wp-config.php
@@ -45,6 +44,7 @@ COPY srcs/database.sql .
 COPY srcs/autoindex.sh .
 COPY srcs/index.html /var/www/ft_server/
 
+# init database and install wordpress
 RUN service mysql start \
 	&& cat /var/www/ft_server/phpmyadmin/sql/create_tables.sql >> database.sql \
 	&& echo "GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'localhost' IDENTIFIED BY 'password';" >> database.sql \
