@@ -16,7 +16,7 @@ server {
 	server_tokens off;
 
 	server_name ft_server;
-	index index.html;
+	index index.php index.html;
 
 	location / {
 		autoindex on;
