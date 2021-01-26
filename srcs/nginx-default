@@ -15,9 +15,8 @@ server {
 	root /var/www/ft_server;
 	server_tokens off;
 
-	index index.php;
-
 	server_name ft_server;
+	index index.html;
 
 	location / {
 		autoindex on;
