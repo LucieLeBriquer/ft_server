@@ -3,8 +3,7 @@ LABEL maintainer="lle-briq@student.42.fr"
 
 # packages
 RUN apt-get -qq update \
-&& apt-get install -y nginx wget php-mysql php-fpm php-mbstring php-xml mariadb-server \
-> /dev/null 2>&1 \
+&& apt-get install -y nginx wget php-mysql php-fpm php-mbstring php-xml mariadb-server > /dev/null 2>&1 \
 && apt-get -qq clean
 
 # nginx
@@ -39,11 +38,8 @@ COPY srcs/database.sql .
 # init database and install wordpress
 RUN service mysql start \
 && cat database.sql | mariadb \
-&& wp core install --url=http://localhost/wordpress --title=ft_server --admin_user=admin \
---admin_password=password --admin_email=lle-briq@student.42.fr --quiet \
---path=/var/www/ft_server/wordpress --allow-root \
-&& wp theme install twentyfifteen --quiet --activate --path=/var/www/ft_server/wordpress \
---allow-root \
+&& wp core install --url=http://localhost/wordpress --title=ft_server --admin_user=admin --admin_password=password --admin_email=lle-briq@student.42.fr --quiet --path=/var/www/ft_server/wordpress --allow-root \
+&& wp theme install twentyfifteen --quiet --activate --path=/var/www/ft_server/wordpress --allow-root \
 && rm database.sql
 
 COPY srcs/nginx-default /etc/nginx/sites-available/default
