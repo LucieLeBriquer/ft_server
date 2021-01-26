@@ -14,4 +14,9 @@
 
 # switch autoindex on/off
 ./docker.sh autoindex
+
+## Ressources
+- https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mariadb-php-lemp-stack-on-debian-10
+- https://kinsta.com/fr/blog/wp-cli/
+- https://kifarunix.com/how-to-create-self-signed-ssl-certificate-with-mkcert-on-ubuntu-18-04/
 ```
