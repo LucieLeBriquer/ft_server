@@ -3,10 +3,10 @@
 
 ## Usage
 ```
-# build ft_server image and create a related container
+# build ft_server image and create a container
 ./docker.sh
 
-# enter in this new container (build image and create container if necessary)
+# enter in this new container (build image and create a container if necessary)
 ./docker.sh enter
 
 # clean all unused containers and those based on ft_server image
