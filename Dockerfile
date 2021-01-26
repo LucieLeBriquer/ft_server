@@ -53,6 +53,4 @@ COPY srcs/index.html /var/www/ft_server/
 
 EXPOSE 80 443
 
-CMD service php7.3-fpm start \
-	&& service mysql start \
-	&& service nginx start
+CMD service php7.3-fpm start && service mysql start && service nginx start
